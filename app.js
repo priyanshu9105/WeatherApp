@@ -11,6 +11,11 @@ const mapWrapper = document.getElementById('map-wrapper');
 let map;
 let marker;
 
+function openInGoogleMaps(lat, lon) {
+    const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+    window.open(mapsUrl, '_blank');
+}
+
 function updateMap(lat, lon, label) {
     if (!map) {
         map = L.map('map');
@@ -18,6 +23,10 @@ function updateMap(lat, lon, label) {
             maxZoom: 19,
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
+
+        map.on('click', (event) => {
+            openInGoogleMaps(event.latlng.lat, event.latlng.lng);
+        });
     }
 
     map.setView([lat, lon], 12);
@@ -27,6 +36,11 @@ function updateMap(lat, lon, label) {
     } else {
         marker.setLatLng([lat, lon]);
     }
+
+    marker.off('click');
+    marker.on('click', () => {
+        openInGoogleMaps(lat, lon);
+    });
 
     marker.bindPopup(label).openPopup();
     mapWrapper.style.display = 'block';
