@@ -6,17 +6,31 @@
     <title>Weather App</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;700&family=Bangers&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="card">
+        <div class="theme-toggle-wrap">
+            <label class="theme-toggle">
+                <input type="checkbox" id="theme-toggle">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+        </div>
         <div class="search">
             <input type="text" id="city-input" placeholder="Enter city name" spellcheck="false">
             <button id="search-btn">Search</button>
         </div>
         <div class="weather-box" id="weather-box" style="display: none;">
-            <h2 id="city">New York</h2>
-            <h1 id="temp">22°C</h1>
-            <p id="description">Clear Sky</p>
+            <div class="weather-top">
+                <div class="title-block">
+                    <h2 id="city">New York</h2>
+                    <p id="description">Clear Sky</p>
+                </div>
+                <div class="icon-block">
+                    <img id="weather-icon" src="" alt="icon" />
+                    <h1 id="temp">22°C</h1>
+                </div>
+            </div>
             <div class="details">
                 <div class="col">
                     <div>
@@ -31,13 +45,22 @@
                     </div>
                 </div>
             </div>
+
+            <div class="more-info" id="more-info" style="display: none;">
+                <div class="info-item"><strong>Feels like:</strong> <span id="feels">--</span></div>
+                <div class="info-item"><strong>Pressure:</strong> <span id="pressure">--</span> hPa</div>
+                <div class="info-item"><strong>Visibility:</strong> <span id="visibility">--</span> m</div>
+                <div class="info-item"><strong>Sunrise:</strong> <span id="sunrise">--</span></div>
+                <div class="info-item"><strong>Sunset:</strong> <span id="sunset">--</span></div>
+                <div class="info-item"><strong>Coordinates:</strong> <span id="coords">--</span></div>
+            </div>
         </div>
         <div class="error" id="error-msg" style="display: none;">
             <p>City not found. Please try again.</p>
         </div>
 
         <div class="map-wrapper" id="map-wrapper" style="display: none;">
-            <p class="map-title">Exact location</p>
+            <p class="map-title">Exact location (click map to open in Google Maps)</p>
             <div id="map"></div>
         </div>
     </div>
