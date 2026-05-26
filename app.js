@@ -7,6 +7,33 @@ const searchBtn = document.getElementById('search-btn');
 const weatherBox = document.getElementById('weather-box');
 const errorMsg = document.getElementById('error-msg');
 const mapWrapper = document.getElementById('map-wrapper');
+const weatherIcon = document.getElementById('weather-icon');
+const moreInfo = document.getElementById('more-info');
+const feelsEl = document.getElementById('feels');
+const pressureEl = document.getElementById('pressure');
+const visibilityEl = document.getElementById('visibility');
+const sunriseEl = document.getElementById('sunrise');
+const sunsetEl = document.getElementById('sunset');
+const coordsEl = document.getElementById('coords');
+const themeToggle = document.getElementById('theme-toggle');
+
+// Initialize theme from localStorage
+function applyTheme(theme) {
+    if (theme === 'dark') document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+}
+
+const savedTheme = localStorage.getItem('weatherapp_theme') || 'light';
+applyTheme(savedTheme);
+if (themeToggle) themeToggle.checked = savedTheme === 'dark';
+
+if (themeToggle) {
+    themeToggle.addEventListener('change', (e) => {
+        const t = e.target.checked ? 'dark' : 'light';
+        applyTheme(t);
+        localStorage.setItem('weatherapp_theme', t);
+    });
+}
 
 let map;
 let marker;
@@ -68,6 +95,34 @@ async function checkWeather(city) {
             document.getElementById('description').innerHTML = data.weather[0].description;
             document.getElementById('humidity').innerHTML = data.main.humidity + "%";
             document.getElementById('wind').innerHTML = data.wind.speed + " km/h";
+
+            // Icon
+            try {
+                const icon = data.weather[0].icon;
+                if (icon && weatherIcon) {
+                    weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+                    weatherIcon.style.display = 'inline-block';
+                }
+            } catch (e) { /* ignore */ }
+
+            // More info
+            if (moreInfo) {
+                feelsEl.innerHTML = Math.round(data.main.feels_like) + "°C";
+                pressureEl.innerHTML = data.main.pressure;
+                visibilityEl.innerHTML = data.visibility ?? '--';
+
+                const toTime = (unix) => new Date(unix * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                if (data.sys) {
+                    sunriseEl.innerHTML = toTime(data.sys.sunrise);
+                    sunsetEl.innerHTML = toTime(data.sys.sunset);
+                }
+
+                if (data.coord) {
+                    coordsEl.innerHTML = `${data.coord.lat.toFixed(4)}, ${data.coord.lon.toFixed(4)}`;
+                }
+
+                moreInfo.style.display = 'block';
+            }
 
             weatherBox.style.display = "block";
             errorMsg.style.display = "none";
