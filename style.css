@@ -108,3 +108,51 @@ body {
     font-weight: bold;
     margin-top: 10px;
 }
+
+.map-wrapper {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.map-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #eaf4ff;
+    letter-spacing: 0.4px;
+}
+
+#map {
+    width: 100%;
+    height: 240px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 24px;
+    }
+
+    .search {
+        gap: 10px;
+    }
+
+    .search input {
+        margin-right: 0;
+        padding: 10px 14px;
+    }
+
+    .search button {
+        width: 92px;
+    }
+
+    #temp {
+        font-size: 52px;
+    }
+
+    #city {
+        font-size: 30px;
+    }
+}
